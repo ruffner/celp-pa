@@ -25,6 +25,9 @@ uint16_t AudioInputSpeex::block_offset = 0;
 int32_t AudioInputSpeex::hpf_y1 = 0;
 int32_t AudioInputSpeex::hpf_x1 = 0;
 
+void *AudioInputSpeex::speexState = NULL;
+SpeexBits AudioInputSpeex::speexBits;
+
 bool AudioInputSpeex::update_responsibility = false;
 DMAChannel AudioInputSpeex::dma(false);
 
@@ -33,8 +36,16 @@ void AudioInputSpeex::init(uint8_t pin)
   int32_t tmp;
 
   // configure speex encoder
+  int i, temp;
+  /*Create a new encoder state in narrowband mode*/
   speexState = speex_encoder_init(&speex_nb_mode);
+  /*Set the quality to 8 (15 kbps)*/
+  temp=8;
+  speex_encoder_ctl(speexState, SPEEX_SET_QUALITY, &temp);
+  /*Initialization of the structure that holds the bits*/
+  speex_bits_init(&speexBits);
 
+  
   // Configure the ADC and run at least one software-triggered
   // conversion.  This completes the self calibration stuff and
   // leaves the ADC in a state that's mostly ready to use

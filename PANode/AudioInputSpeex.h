@@ -4,7 +4,8 @@
 #include "Arduino.h"
 #include "AudioStream.h"
 #include "DMAChannel.h"
-#include "speex/speex.h"
+
+#include "speex.h"
 
 
 class AudioInputSpeex : public AudioStream 
@@ -16,8 +17,8 @@ public:
   virtual void update(void);
   friend void dma_ch9_isr(void);
 private:
-  void *speexState;
-  SpeexBits speexBits;
+  static void *speexState;
+  static SpeexBits speexBits;
 
   static audio_block_t *block_left;
   static uint16_t block_offset;
