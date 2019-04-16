@@ -8,8 +8,11 @@
 #include <SD.h>
 #include <SerialFlash.h>
 
+#include "AudioInputSpeex.h"
+
 
 // GUItool: begin automatically generated code
+AudioInputSpeex          speex1;
 AudioInputAnalog         adc1;           //xy=394,277
 AudioAnalyzeFFT1024      fft1024_1;      //xy=405,624
 AudioAnalyzeFFT256       fft256_1;       //xy=631,294
@@ -24,7 +27,7 @@ AudioConnection          patchCord1(adc1, fft256_1);
 
 void setup() {
   // put your setup code here, to run once:
-
+  AudioMemory(10);
 }
 
 void loop() {
