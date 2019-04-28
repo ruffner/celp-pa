@@ -3,8 +3,6 @@
 
 #include "Arduino.h"
 #include "AudioStream.h"
-#include "DMAChannel.h"
-
 #include "speex.h"
 
 #define FRAME_SIZE 160
@@ -13,6 +11,10 @@ class CELPEncode : public AudioStream
 {
 public:
   CELPEncode() : AudioStream(1, inputQueueArray),act(false),dataReady(false),nbytes(0), curSamples(0) {};
+  ~CELPEncode() {
+	  speex_encoder_destroy(speexState);
+	  speex_bits_destroy(&speexBits);
+  }
   virtual void update(void);
   int init();
   bool available();
